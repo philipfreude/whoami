@@ -1,7 +1,6 @@
 # whoami
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/traefik/whoami.svg)](https://hub.docker.com/r/traefik/whoami/)
-[![Build Status](https://github.com/traefik/whoami/workflows/Main/badge.svg?branch=master)](https://github.com/traefik/whoami/actions)
+[![Build Status](https://github.com/philipfreude/whoami/workflows/Main/badge.svg?branch=master)](https://github.com/philipfreude/whoami/actions)
 
 Tiny Go webserver that prints OS information and HTTP request to output.
 
@@ -59,7 +58,7 @@ Heath check.
 ## Examples
 
 ```console
-$ docker run -d -p 8080:80 --name iamfoo traefik/whoami
+$ docker run -d -p 8080:80 --name iamfoo ghcr.io/philipfreude/whoami
 
 $ curl http://localhost:8080
 Hostname: 9c9c93da54b5
@@ -103,7 +102,7 @@ $ openssl req -newkey rsa:4096 \
     -out ./certs/example.crt \
     -keyout ./certs/example.key
 
-$ docker run -d -p 8080:80 -v ./certs:/certs --name iamfoo traefik/whoami --cert /certs/example.crt --key /certs/example.key
+$ docker run -d -p 8080:80 -v ./certs:/certs --name iamfoo ghcr.io/philipfreude/whoami --cert /certs/example.crt --key /certs/example.key
 
 $ curl https://localhost:8080 -k --cert certs/example.crt  --key certs/example.key
 Hostname: 25bc0df47b95
@@ -119,7 +118,7 @@ Accept: */*
 ```
 
 ```console
-$ docker run -d -p 8080:80 --name iamfoo traefik/whoami
+$ docker run -d -p 8080:80 --name iamfoo ghcr.io/philipfreude/whoami
 
 $ grpcurl -plaintext -proto grpc.proto localhost:8080 whoami.Whoami/Whoami
 {
@@ -142,7 +141,7 @@ version: '3.9'
 
 services:
   whoami:
-    image: traefik/whoami
+    image: ghcr.io/philipfreude/whoami
     command:
        # It tells whoami to start listening on 2001 instead of 80
        - --port=2001

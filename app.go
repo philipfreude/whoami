@@ -18,7 +18,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	grpcWhoami "github.com/traefik/whoami/grpc"
+	grpcWhoami "github.com/philipfreude/whoami/grpc"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	"google.golang.org/grpc"

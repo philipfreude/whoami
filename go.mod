@@ -1,4 +1,4 @@
-module github.com/traefik/whoami
+module github.com/philipfreude/whoami
 
 go 1.24
 

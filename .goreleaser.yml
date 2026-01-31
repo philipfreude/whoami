@@ -35,37 +35,21 @@ archives:
       - LICENSE
 
 docker_manifests:
-  - name_template: 'traefik/whoami:{{ .Tag }}'
+  - name_template: 'ghcr.io/philipfreude/whoami:{{ .Tag }}'
     image_templates:
-      - 'traefik/whoami:{{ .Tag }}-amd64'
-      - 'traefik/whoami:{{ .Tag }}-arm64'
-      - 'traefik/whoami:{{ .Tag }}-armv7'
-  - name_template: 'traefik/whoami:latest'
+      - 'ghcr.io/philipfreude/whoami:{{ .Tag }}-amd64'
+      - 'ghcr.io/philipfreude/whoami:{{ .Tag }}-arm64'
+      - 'ghcr.io/philipfreude/whoami:{{ .Tag }}-armv7'
+  - name_template: 'ghcr.io/philipfreude/whoami:latest'
     image_templates:
-      - 'traefik/whoami:{{ .Tag }}-amd64'
-      - 'traefik/whoami:{{ .Tag }}-arm64'
-      - 'traefik/whoami:{{ .Tag }}-armv7'
-  - name_template: 'traefik/whoami:v{{ .Major }}.{{ .Minor }}'
+      - 'ghcr.io/philipfreude/whoami:{{ .Tag }}-amd64'
+      - 'ghcr.io/philipfreude/whoami:{{ .Tag }}-arm64'
+      - 'ghcr.io/philipfreude/whoami:{{ .Tag }}-armv7'
+  - name_template: 'ghcr.io/philipfreude/whoami:v{{ .Major }}.{{ .Minor }}'
     image_templates:
-      - 'traefik/whoami:v{{ .Major }}.{{ .Minor }}-amd64'
-      - 'traefik/whoami:v{{ .Major }}.{{ .Minor }}-arm64'
-      - 'traefik/whoami:v{{ .Major }}.{{ .Minor }}-armv7'
-
-  - name_template: 'ghcr.io/traefik/whoami:{{ .Tag }}'
-    image_templates:
-      - 'ghcr.io/traefik/whoami:{{ .Tag }}-amd64'
-      - 'ghcr.io/traefik/whoami:{{ .Tag }}-arm64'
-      - 'ghcr.io/traefik/whoami:{{ .Tag }}-armv7'
-  - name_template: 'ghcr.io/traefik/whoami:latest'
-    image_templates:
-      - 'ghcr.io/traefik/whoami:{{ .Tag }}-amd64'
-      - 'ghcr.io/traefik/whoami:{{ .Tag }}-arm64'
-      - 'ghcr.io/traefik/whoami:{{ .Tag }}-armv7'
-  - name_template: 'ghcr.io/traefik/whoami:v{{ .Major }}.{{ .Minor }}'
-    image_templates:
-      - 'ghcr.io/traefik/whoami:v{{ .Major }}.{{ .Minor }}-amd64'
-      - 'ghcr.io/traefik/whoami:v{{ .Major }}.{{ .Minor }}-arm64'
-      - 'ghcr.io/traefik/whoami:v{{ .Major }}.{{ .Minor }}-armv7'
+      - 'ghcr.io/philipfreude/whoami:v{{ .Major }}.{{ .Minor }}-amd64'
+      - 'ghcr.io/philipfreude/whoami:v{{ .Major }}.{{ .Minor }}-arm64'
+      - 'ghcr.io/philipfreude/whoami:v{{ .Major }}.{{ .Minor }}-armv7'
 
 dockers:
   - use: buildx
@@ -73,12 +57,9 @@ dockers:
     goarch: amd64
     dockerfile: buildx.Dockerfile
     image_templates:
-      - 'traefik/whoami:latest-amd64'
-      - 'traefik/whoami:{{ .Tag }}-amd64'
-      - 'traefik/whoami:v{{ .Major }}.{{ .Minor }}-amd64'
-      - 'ghcr.io/traefik/whoami:latest-amd64'
-      - 'ghcr.io/traefik/whoami:{{ .Tag }}-amd64'
-      - 'ghcr.io/traefik/whoami:v{{ .Major }}.{{ .Minor }}-amd64'
+      - 'ghcr.io/philipfreude/whoami:latest-amd64'
+      - 'ghcr.io/philipfreude/whoami:{{ .Tag }}-amd64'
+      - 'ghcr.io/philipfreude/whoami:v{{ .Major }}.{{ .Minor }}-amd64'
     build_flag_templates:
       - '--pull'
       # https://github.com/opencontainers/image-spec/blob/main/annotations.md#pre-defined-annotation-keys
@@ -97,12 +78,9 @@ dockers:
     goarch: arm64
     dockerfile: buildx.Dockerfile
     image_templates:
-      - 'traefik/whoami:latest-arm64'
-      - 'traefik/whoami:{{ .Tag }}-arm64'
-      - 'traefik/whoami:v{{ .Major }}.{{ .Minor }}-arm64'
-      - 'ghcr.io/traefik/whoami:latest-arm64'
-      - 'ghcr.io/traefik/whoami:{{ .Tag }}-arm64'
-      - 'ghcr.io/traefik/whoami:v{{ .Major }}.{{ .Minor }}-arm64'
+      - 'ghcr.io/philipfreude/whoami:latest-arm64'
+      - 'ghcr.io/philipfreude/whoami:{{ .Tag }}-arm64'
+      - 'ghcr.io/philipfreude/whoami:v{{ .Major }}.{{ .Minor }}-arm64'
     build_flag_templates:
       - '--pull'
       # https://github.com/opencontainers/image-spec/blob/main/annotations.md#pre-defined-annotation-keys
@@ -122,12 +100,9 @@ dockers:
     goarm: '7'
     dockerfile: buildx.Dockerfile
     image_templates:
-      - 'traefik/whoami:latest-armv7'
-      - 'traefik/whoami:{{ .Tag }}-armv7'
-      - 'traefik/whoami:v{{ .Major }}.{{ .Minor }}-armv7'
-      - 'ghcr.io/traefik/whoami:latest-armv7'
-      - 'ghcr.io/traefik/whoami:{{ .Tag }}-armv7'
-      - 'ghcr.io/traefik/whoami:v{{ .Major }}.{{ .Minor }}-armv7'
+      - 'ghcr.io/philipfreude/whoami:latest-armv7'
+      - 'ghcr.io/philipfreude/whoami:{{ .Tag }}-armv7'
+      - 'ghcr.io/philipfreude/whoami:v{{ .Major }}.{{ .Minor }}-armv7'
     build_flag_templates:
       - '--pull'
       # https://github.com/opencontainers/image-spec/blob/main/annotations.md#pre-defined-annotation-keys
