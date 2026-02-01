@@ -6,4 +6,10 @@
     ':disableRateLimiting',
     ':separateMultipleMajorReleases',
   ],
+  packageRules: [
+    {
+      matchManagers: ['gomod'],
+      groupName: 'go dependencies',
+    },
+  ],
 }
