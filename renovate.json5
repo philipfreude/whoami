@@ -15,7 +15,20 @@
       matchManagers: [
         'gomod',
       ],
+      matchDepTypes: ['indirect', 'require'],
       groupName: 'go dependencies',
+    },
+    {
+      matchDatasources: ['docker', 'golang-version'],
+      matchPackageNames: ['golang', 'go'],
+      groupName: 'golang version',
+      groupSlug: 'golang-version',
+    },
+    {
+      matchManagers: ['gomod'],
+      matchDepTypes: ['golang'],
+      groupName: 'golang version',
+      groupSlug: 'golang-version',
     },
   ],
 }
