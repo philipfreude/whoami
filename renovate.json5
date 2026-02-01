@@ -19,8 +19,8 @@
       groupName: 'go dependencies',
     },
     {
-      matchDatasources: ['docker', 'golang-version'],
-      matchPackageNames: ['golang', 'go'],
+      matchManagers: ['dockerfile'],
+      matchPackageNames: ['golang'],
       groupName: 'golang version',
       groupSlug: 'golang-version',
     },
