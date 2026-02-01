@@ -9,7 +9,9 @@
   ],
   packageRules: [
     {
-      matchManagers: ['gomod'],
+      matchManagers: [
+        'gomod',
+      ],
       groupName: 'go dependencies',
     },
   ],
