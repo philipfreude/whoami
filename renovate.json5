@@ -26,7 +26,8 @@
     },
     {
       matchManagers: ['gomod'],
-      matchDepTypes: ['golang'],
+      matchPackageNames: ['go'],
+      rangeStrategy: 'bump',
       groupName: 'golang version',
       groupSlug: 'golang-version',
     },
