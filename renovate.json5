@@ -23,6 +23,8 @@
       matchPackageNames: ['golang'],
       groupName: 'golang version',
       groupSlug: 'golang-version',
+      separateMinorPatch: true,
+      separateMultipleMinor: true
     },
     {
       matchManagers: ['gomod'],
