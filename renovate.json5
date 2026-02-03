@@ -30,6 +30,8 @@
       rangeStrategy: 'bump',
       groupName: 'golang version',
       groupSlug: 'golang-version',
+      separateMinorPatch: true,
+      separateMultipleMinor: true,
     },
   ],
 }
