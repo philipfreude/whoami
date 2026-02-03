@@ -24,7 +24,7 @@
       groupName: 'golang version',
       groupSlug: 'golang-version',
       separateMinorPatch: true,
-      separateMultipleMinor: true
+      separateMultipleMinor: true,
     },
     {
       matchManagers: ['gomod'],
