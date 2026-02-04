@@ -19,6 +19,7 @@ func (r *contentReader) Read(p []byte) (int, error) {
 	if r.cur >= length {
 		return 0, io.EOF
 	}
+
 	if len(p) == 0 {
 		return 0, nil
 	}
