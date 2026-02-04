@@ -26,11 +26,10 @@ import (
 
 // Units.
 const (
-	_        = iota
-	KB int64 = 1 << (10 * iota)
-	MB
-	GB
-	TB
+	KB int64 = 1 << (10 * 1)
+	MB int64 = 1 << (10 * 2)
+	GB int64 = 1 << (10 * 3)
+	TB int64 = 1 << (10 * 4)
 )
 
 var upgrader = websocket.Upgrader{
@@ -162,6 +161,7 @@ func echoHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		printBinary(p)
+
 		err = conn.WriteMessage(messageType, p)
 		if err != nil {
 			return
@@ -171,9 +171,11 @@ func echoHandler(w http.ResponseWriter, r *http.Request) {
 
 func printBinary(s []byte) {
 	fmt.Printf("Received b:")
+
 	for n := range s {
 		fmt.Printf("%d,", s[n])
 	}
+
 	fmt.Printf("\n")
 }
 
@@ -184,6 +186,7 @@ func dataHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		size = 1
 	}
+
 	if size < 0 {
 		size = 0
 	}
@@ -210,11 +213,14 @@ func dataHandler(w http.ResponseWriter, r *http.Request) {
 	if attachment {
 		w.Header().Set("Content-Disposition", "Attachment")
 		http.ServeContent(w, r, "data.txt", time.Now(), content)
+
 		return
 	}
 
-	if _, err := io.Copy(w, content); err != nil {
+	_, err = io.Copy(w, content)
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+
 		return
 	}
 }
@@ -249,8 +255,10 @@ func whoamiHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if err := r.Write(w); err != nil {
+	err := r.Write(w)
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+
 		return
 	}
 
@@ -288,8 +296,11 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	if err := json.NewEncoder(w).Encode(data); err != nil {
+
+	err := json.NewEncoder(w).Encode(data)
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+
 		return
 	}
 }
@@ -307,8 +318,10 @@ func healthHandler(w http.ResponseWriter, req *http.Request) {
 	if req.Method == http.MethodPost {
 		var statusCode int
 
-		if err := json.NewDecoder(req.Body).Decode(&statusCode); err != nil {
+		err := json.NewDecoder(req.Body).Decode(&statusCode)
+		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
+
 			return
 		}
 
@@ -316,10 +329,12 @@ func healthHandler(w http.ResponseWriter, req *http.Request) {
 
 		mutexHealthState.Lock()
 		defer mutexHealthState.Unlock()
+
 		currentHealthState.StatusCode = statusCode
 	} else {
 		mutexHealthState.RLock()
 		defer mutexHealthState.RUnlock()
+
 		w.WriteHeader(currentHealthState.StatusCode)
 	}
 }
@@ -329,6 +344,7 @@ func getEnv(key, fallback string) string {
 	if value == "" {
 		return fallback
 	}
+
 	return value
 }
 
@@ -341,12 +357,14 @@ func getIPs() []string {
 		// handle err
 		for _, addr := range addrs {
 			var ip net.IP
+
 			switch v := addr.(type) {
 			case *net.IPNet:
 				ip = v.IP
 			case *net.IPAddr:
 				ip = v.IP
 			}
+
 			if ip != nil {
 				ips = append(ips, ip.String())
 			}
@@ -378,12 +396,14 @@ func (g whoamiServer) Whoami(_ context.Context, _ *grpcWhoami.WhoamiRequest) (*g
 		// handle err
 		for _, addr := range addrs {
 			var ip net.IP
+
 			switch v := addr.(type) {
 			case *net.IPNet:
 				ip = v.IP
 			case *net.IPAddr:
 				ip = v.IP
 			}
+
 			reply.Iface = append(reply.Iface, ip.String())
 		}
 	}
