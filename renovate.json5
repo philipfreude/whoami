@@ -6,6 +6,9 @@
     'config:recommended',
     ':disableRateLimiting',
     ':separateMultipleMajorReleases',
+    ':configMigration',
+    'abandonments:recommended',
+    'helpers:pinGitHubActionDigestsToSemver',
   ],
   postUpdateOptions: [
     "gomodTidy",
