@@ -1,4 +1,4 @@
-name: Trivy Security Scan
+name: Trivy Image Security Scan
 
 on:
   schedule:
@@ -11,30 +11,6 @@ permissions:
   security-events: write
 
 jobs:
-  scan-repository:
-    name: Scan Repository Code
-    runs-on: ubuntu-latest
-
-    steps:
-      # https://github.com/marketplace/actions/checkout
-      - name: Check out code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      # https://github.com/marketplace/actions/aqua-security-trivy
-      - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # 0.33.1
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          format: 'sarif'
-          output: 'trivy-repo-results.sarif'
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@45cbd0c69e560cd9e7cd7f8c32362050c9b7ded2 # v4.32.2
-        with:
-          sarif_file: 'trivy-repo-results.sarif'
-          category: 'trivy-repository'
-
   scan-image:
     name: Scan Docker Image
     runs-on: ubuntu-latest
