@@ -1,0 +1,91 @@
+name: Trivy PR Security Scan
+
+on:
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  scan-repository:
+    name: Scan Repository Code
+    runs-on: ubuntu-latest
+
+    steps:
+      # https://github.com/marketplace/actions/checkout
+      - name: Check out code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      # https://github.com/marketplace/actions/aqua-security-trivy
+      - name: Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8 # 0.33.1
+        env:
+          TRIVY_DISABLE_VEX_NOTICE: 'true'
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          output: 'trivy-repo-results.txt'
+
+      - name: Read Trivy results
+        id: trivy-results
+        run: |
+          if [ -f trivy-repo-results.txt ]; then
+            RESULTS=$(cat trivy-repo-results.txt)
+            echo "results<<EOF" >> $GITHUB_OUTPUT
+            echo "$RESULTS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "results=No results file found" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment PR with Trivy results
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const results = `${{ steps.trivy-results.outputs.results }}`;
+            const comment = `## 🔍 Trivy Security Scan Results
+            
+            <details>
+            <summary>Click to view scan results</summary>
+            
+            \`\`\`
+            ${results}
+            \`\`\`
+            
+            </details>
+            
+            *Scan performed on commit ${{ github.event.pull_request.head.sha }}*`;
+            
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && 
+              comment.body.includes('🔍 Trivy Security Scan Results')
+            );
+            
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+            }
