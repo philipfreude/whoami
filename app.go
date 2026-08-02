@@ -19,8 +19,6 @@ import (
 
 	"github.com/gorilla/websocket"
 	grpcWhoami "github.com/philipfreude/whoami/grpc"
-	"golang.org/x/net/http2"
-	"golang.org/x/net/http2/h2c"
 	"google.golang.org/grpc"
 )
 
@@ -88,17 +86,23 @@ func main() {
 
 	h := handle(mux.ServeHTTP, verbose)
 
+	server := &http.Server{
+		Addr:    ":" + port,
+		Handler: h,
+	}
+
 	if cert == "" || key == "" {
 		log.Printf("Starting up on port %s", port)
 
-		log.Fatal(http.ListenAndServe(":"+port, h2c.NewHandler(h, &http2.Server{})))
+		// Allow unencrypted HTTP/2 (h2c) since there is no TLS configured.
+		server.Protocols = new(http.Protocols)
+		server.Protocols.SetUnencryptedHTTP2(true)
+		server.Protocols.SetHTTP1(true)
+
+		log.Fatal(server.ListenAndServe())
 	}
 
-	server := &http.Server{
-		Addr:      ":" + port,
-		TLSConfig: &tls.Config{ClientAuth: tls.RequestClientCert},
-		Handler:   h,
-	}
+	server.TLSConfig = &tls.Config{ClientAuth: tls.RequestClientCert}
 
 	if ca != "" {
 		server.TLSConfig = setupMutualTLS(ca)
