@@ -123,10 +123,9 @@ func setupMutualTLS(ca string) *tls.Config {
 	clientCertPool.AppendCertsFromPEM(clientCACert)
 
 	tlsConfig := &tls.Config{
-		ClientAuth:               tls.RequireAndVerifyClientCert,
-		ClientCAs:                clientCertPool,
-		PreferServerCipherSuites: true,
-		MinVersion:               tls.VersionTLS12,
+		ClientAuth: tls.RequireAndVerifyClientCert,
+		ClientCAs:  clientCertPool,
+		MinVersion: tls.VersionTLS12,
 	}
 
 	return tlsConfig
