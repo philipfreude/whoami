@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM golang:1.27.1-alpine as builder
+FROM golang:1.27.2-alpine as builder
 
 RUN apk --no-cache --no-progress add git ca-certificates tzdata make \
     && update-ca-certificates \
